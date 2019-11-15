@@ -29,8 +29,9 @@ SELECT
     CriteriaId AS keywords_id,
     CriteriaParameters AS keywords,
     SUM(total_fare * conversion_data.exchange_rate) AS total_fare
-FROM   
-    `tvlk-data-mkt-prod.s3_denorm.flight_issued_mkt_attr_utc7` AS denorm 
+FROM 
+    `tvlk-data-mkt-prod.s3_denorm.hotel_edw_hotel_issued_mkt_attr_utc7` AS denorm
+    --`tvlk-data-mkt-prod.s3_denorm.flight_issued_mkt_attr_utc7` AS denorm 
     LEFT JOIN `tvlk-data-mkt-prod.google_adwords_traveloka.p_ClickStats_5442152622` AS click
     ON LOWER(REGEXP_EXTRACT(denorm.last_paid_url, '&gclid=(.*)')) = LOWER(click.GclId)
     LEFT JOIN conversion_data
@@ -40,7 +41,8 @@ FROM
 WHERE
     DATE(denorm._PARTITIONTIME) BETWEEN '2019-07-01' AND '2019-09-30'
     AND DATE(click._PARTITIONTIME) BETWEEN '2019-01-01' AND '2019-09-30'
-    AND LOWER(click.AccountDescriptiveName) = 'sem flight indonesia - id'
+    AND LOWER(click.AccountDescriptiveName) = 'sem hotel indonesia - id'           
+    -- AND LOWER(click.AccountDescriptiveName) = 'sem flight indonesia - id'
     AND LOWER(denorm.country_id) = 'id'
 GROUP BY
     1,
@@ -75,7 +77,8 @@ FROM
        AND conversion_data.rank = 1
 WHERE
     DATE(stats._PARTITIONTIME) BETWEEN "2019-07-01" AND "2019-09-30" 
-    AND stats.ExternalCustomerId = 6204864059
+    -- AND stats.ExternalCustomerId = 6204864059
+    AND stats.ExternalCustomerId = 7670502067
 GROUP BY
     1,
     2,
