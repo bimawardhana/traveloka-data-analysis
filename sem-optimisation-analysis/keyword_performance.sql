@@ -66,7 +66,7 @@ SELECT
     stats.Date as date,
     stats.CriterionId keywords_id,
     dim.Criteria AS keywords,
-    SUM((stats.cost/100000) * conversion_data.exchange_rate) AS total_cost
+    SUM((stats.cost/1000000) * conversion_data.exchange_rate) AS total_cost
 FROM
     `tvlk-data-mkt-prod.google_adwords_traveloka.p_CriteriaStats_5442152622` AS stats
     LEFT JOIN dim
